@@ -1,0 +1,5 @@
+---
+- src: https://github.com/GSA/ansible-os-ubuntu-16
+  name: gsa_ubuntu_16_hardening
+- src: https://github.com/GSA/ansible-role-kolide-fleet
+  name: gsa_kolide_fleet
