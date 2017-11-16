@@ -1,7 +1,7 @@
 resource "aws_security_group" "kolide_rds_security_group" {
   name        = "kolide_rds_security_group"
   description = "Allow inbound traffic for security group"
-  vpc_id      = "${data.terraform_remote_state.infrastructure_remote_state.vpc_id}"
+  vpc_id      = "${var.vpc_id == "" ? data.terraform_remote_state.infrastructure_remote_state.vpc_id : var.vpc_id}"
 
   ingress {
     from_port   = "${var.kolide_rds_port}"
