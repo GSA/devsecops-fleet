@@ -236,3 +236,39 @@ variable "kolide_rds_stack_description" {
     type = "string"
     default = "Kolide fleet RDS instance"
 }
+
+variable "kolide_redis_environment" {
+    description = "Environment to deploy into (dev/test/prod)"
+    type = "string"
+    default = "dev"
+}
+
+variable "kolide_redis_cluster_name" {
+    description = "Name of the redis cluster"
+    type = "string"
+    default = "kolide-redis"
+}
+
+variable "kolide_redis_clusters" {
+    description = "Number of cluster nodes for kolide redis"
+    type = "string"
+    default = "2"
+}
+
+variable "kolide_redis_failover" {
+    description = "Boolean - failover the redis cluster"
+    type = "string"
+    default = "true"
+}
+
+variable "kolide_redis_allowed_cidr" {
+    description = "List of allowed CIDR ranges that can talk to the Redis cluster"
+    type = "list"
+    default = ["10.0.0.0/16"]
+}
+
+variable "kolide_redis_node_type" {
+    description = "Redis node type"
+    type = "string"
+    default = "cache.m3.medium"
+}
