@@ -3,6 +3,7 @@
 Kolider/fleet implementation for GSA DevSecOps
 
 This repo will create an implementation of [kolider/fleet](https://github.com/kolide/fleet/). This is meant to be deployed within an existing GSA DevSecOps deployment. Currently, this repo serves as the deployment for data.gov's implementation.
+
 ## Products In Use
 
 * [`terraform/`](terraform/) - [Terraform](https://www.terraform.io/) code for setting up the infrastructure at the [Amazon Web Services (AWS)](https://aws.amazon.com/) level
@@ -77,6 +78,7 @@ This will run all of the commands in order. If you want to break things down int
 There is also a “make debug” in the Makefile. This will run all of the steps the same way, except for the last one. It will run “make install_fleet_debug”, which will run ansible in full debug mode. Most problems will occur in variables, so pay careful attention to the variables and the values they expect.
 
 “make destroy” will destroy the environment should you wish. You will have to confirm before it will actually destroys anything.
+
 ## Notes
 
 This deployment will automatically install the roles and all dependencies. Those roles will be downloaded during the “make install_roles” phase. The roles will be install in “/ansible/roles/external”.
