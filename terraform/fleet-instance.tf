@@ -44,7 +44,6 @@ resource "aws_instance" "devsecops_kolide_instance" {
     "Name" = "${var.kolide_instance_name}"
   }
 
-
 }
 
 resource "aws_eip" "devsecops_kolide_eip" {

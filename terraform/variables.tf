@@ -210,7 +210,6 @@ variable "kolide_rds_username" {
 variable "kolide_rds_password" {
     description = "Kolide RDS password"
     type = "string"
-    default = "kolide123"
 }
 
 variable "kolide_rds_subnet_group" {
