@@ -1,6 +1,6 @@
 TERRAFORM_DIR := terraform
 PLAYBOOK_DIR := playbooks
-SSH_USER := ec2-user
+SSH_USER := ubuntu
 INVENTORY_PATH := $(shell which terraform-inventory)
 
 all: terraform ansible
@@ -24,13 +24,13 @@ ansible: install_roles init plan apply install_fleet harden_server
 debug: install_roles init plan apply install_fleet_debug harden_server
 
 harden_server:
-	cd $(PLAYBOOK_DIR) && TF_STATE=../../$(TERRAFORM_DIR)/terraform.tfstate ansible-playbook -i $(INVENTORY_PATH) --become --user=$(SSH_USER) harden_server.yml
+	cd $(PLAYBOOK_DIR) && TF_STATE=../../$(TERRAFORM_DIR)/terraform.tfstate ansible-playbook -i $(INVENTORY_PATH) --become --user=$(SSH_USER) harden-server.yml
 
 install_fleet:
 	cd $(PLAYBOOK_DIR) && TF_STATE=../../$(TERRAFORM_DIR)/terraform.tfstate ansible-playbook -i $(INVENTORY_PATH) --become --user=$(SSH_USER) kolide-fleet.yml
 
 install_fleet_debug:
-	cd $(PLAYBOOK_DIR) && TF_STATE=../../$(TERRAFORM_DIR)/terraform.tfstate ansible-playbook -i $(INVENTORY_PATH) --become --user=$(SSH_USER) kolide-fleet.yml -step -vvv
+	cd $(PLAYBOOK_DIR) && TF_STATE=../../$(TERRAFORM_DIR)/terraform.tfstate ansible-playbook -i $(INVENTORY_PATH) --become --user=$(SSH_USER) kolide-fleet.yml -vvvv
 
 destroy:
 	cd ../$(TERRAFORM_DIR) && terraform destroy

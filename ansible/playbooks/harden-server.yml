@@ -1,5 +1,5 @@
 ---
-- hosts: devsecops_mgmt_jenkins_master_eip
+- hosts: devsecops_kolide_eip
   become: true
   name: Harden server via GSA-approved ansible role
 
@@ -7,4 +7,4 @@
   - gsa_ubuntu_16_hardening
 
   vars_files:
-    - ../group_vars/devsecops_mgmt_jenkins_master_eip/vars.yml
+    - ../group_vars/devsecops_kolide_eip/vars.yml

@@ -1,2 +1,25 @@
 ---
--
+- hosts: devsecops_kolide_eip
+  become: true
+  gather_facts: false
+  name: Set up Kolide Fleet
+  vars_files:
+    - ../group_vars/devsecops_kolide_eip/vars.yml
+    - ../group_vars/devsecops_kolide_eip/vault.yml
+
+  roles:
+    - gsa_kolide_fleet
+
+  pre_tasks:
+
+  - name: Run the equivalent of "apt-get update" as a separate step
+    apt:
+      update_cache: yes
+
+  - name: Install AWSCLI
+    apt:
+      name: awscli
+  
+  - name: Install unzip
+    apt:
+      name: unzip
