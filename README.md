@@ -49,87 +49,9 @@ If you’ve already deployed the DevSecOps-Infrastructure repo, chances are you�
 
 1. Fill out [‘backend.tfvars’](terraform/backend.tfvars.example). The “bucket” parameter *must* match the bucket name you used in the AWS CLI command above, otherwise terraform will throw an error on the init command.
 
-1. Set up an [Ansible Vault](https://docs.ansible.com/ansible/playbooks_vault.html) with values that are secret and should not be stored in plain text on disk. Follow these steps if you wish to keep things as out of the box as possible. If you use different filenames, you will need to modify the Makefile.
-
-* Generate an SSH key.
-
-    ```sh
-    ssh-keygen -t rsa -b 4096 -f temp.key -C "group-email+jenkins@some.gov"
-    # enter a passphrase - store in Vault as vault_jenkins_ssh_key_passphrase (see below)
-
-    cat temp.key
-    # store in Vault as vault_jenkins_ssh_private_key_data (see below)
-
-    cat temp.key.pub
-    # store as jenkins_ssh_public_key_data (see below)
-
-    rm temp.key*
-    ```
-
-* Generate a self-signed SSL certificate or get one. You will need the private key and the certificate file to paste into the vault.
-
-* Set up the required variables files that are specific to Jenkins/Ansible. Create the following directories:
-
-    ````sh
-    /ansible/group_vars
-                |
-                /all
-                |
-                /devsecops_mgmt_jenkins_master_eip
-    ````
-
-    Note that the directory "devsecops_mgmt_jenkins_master_eip" is set to this name to target the Jenkins master host that will be created. When the Ansible playbook is executed, terraform-inventory is called against the terraform.tfstate backend to obtain information about the host that was deployed. This keyboard is used to identify the instance that was created for Ansible to install Jenkins. You may wish to modify the playbook to meet your requirements.
-
-    Fill out the file with the following data:
-
-    ````sh
-    # group_vars/devsecops_mgmt_jenkins_master_eip/vars.yml
-    jenkins_external_hostname: <some-fqdn-hostname>
-    jenkins_ssh_key_passphrase: "{{ vault_jenkins_ssh_key_passphrase }}"
-    jenkins_ssh_private_key_data: "{{ vault_jenkins_ssh_private_key_data }}"
-    ssl_certs_local_cert_data: "{{ vault_ssl_certs_local_cert_data }}"
-    ssl_certs_local_privkey_data: "{{ vault_ssl_certs_local_privkey_data }}"
-    jenkins_admin_username: <username for the admin user in web interface>
-    jenkins_admin_password: "{{vault_jenkins_admin_password}}"
-    jenkins_ssh_user: <username for ssh user>
-    jenkins_ssh_public_key_data: |
-    <public-key-data-from-above-steps>
-    jenkins_java_options:
-    ````
-
-    "jenkins_java_options" overrides the geerlingguy.jenkins role to specify java_opt to pass along to Jenkins when running. Set heapsize or other options here, if they are needed. Note the use of variables preceded by "vault." These variables must be defined in another file in this same directory. Create a new file called "vault.yml" with ansible-vault:
-
-    ````sh
-    ansible-vault create vault.yml
-    ````
-
-    This command will ask for a password to encrypt the file and launch a text editor (likely vi). Fill out the variables like the example below.
-
-    ````sh
-    # group_vars/devsecops_mgmt_jenkins_master_eip/vault.yml (encrypted)
-    vault_jenkins_ssh_key_passphrase: ...(if one was used)
-    vault_jenkins_ssh_private_key_data: |
-      -----BEGIN RSA PRIVATE KEY-----
-      ...(key data from above procedures)
-      -----END RSA PRIVATE KEY-----
-    vault_ssl_certs_local_cert_data: |
-      -----BEGIN CERTIFICATE-----
-      ...(paste SSL certificate info here)
-      -----END CERTIFICATE-----
-    vault_ssl_certs_local_privkey_data: |
-      -----BEGIN RSA PRIVATE KEY-----
-      ...(paste SSL certificate key info here)
-      -----END RSA PRIVATE KEY-----
-    vault_jenkins_admin_password: <type a password here>
-    ````
-
-    Save the file in the text editor and then verify the encryption.
-
-    If you wish, you can create another file called ".vault_pass.txt". Store this file in the /ansible/playbooks directory. This file should contain the vault password on a line by itself. If you do not wish to store the vault password on disk, then you must modify the playbook file /ansible/playbooks/jenkins-master.yml and remove the command reference to the file. You can ask interactively for the password or store the password file elsewhere. For more details, consult the [Ansible Vault](https://docs.ansible.com/ansible/playbooks_vault.html) documentation.
-
 ### Hardening
 
-This repo also uses the GSA ansible role to harden the server according to GSA security baselines. The repo for the hardening is located at [this url](https://github.com/GSA/ansible-os-rhel-7/).
+This repo also uses the GSA ansible role to harden the server according to GSA security baselines. The repo for the hardening is located at [this url](https://github.com/GSA/ansible-os-ubuntu-16/).
 
 Hardening variables can be overridden in the vars.yml file mentioned above. Simply scan the playbooks within the role and set variables in vars.yml according to your specifications if there is a need to override the hardening baselines. This deployment, as configured within source control, should not need to be overriden.
 
@@ -149,12 +71,12 @@ This will run all of the commands in order. If you want to break things down int
 * make init
 * make plan
 * make apply
-* make install_jenkins
+* make install_fleet
+* make harden_server
 
-There is also a “make debug” in the Makefile. This will run all of the steps the same way, except for the last one. It will run “make install_jenkins_debug”, which will run ansible in full debug mode. Most problems will occur in variables, so pay careful attention to the variables and the values they expect.
+There is also a “make debug” in the Makefile. This will run all of the steps the same way, except for the last one. It will run “make install_fleet_debug”, which will run ansible in full debug mode. Most problems will occur in variables, so pay careful attention to the variables and the values they expect.
 
 “make destroy” will destroy the environment should you wish. You will have to confirm before it will actually destroys anything.
-
 ## Notes
 
-This deployment will automatically install the GSA.Jenkins role and all dependencies. Those roles will be downloaded during the “make install_roles” phase. The roles will be install in “/ansible/roles/external”.
+This deployment will automatically install the roles and all dependencies. Those roles will be downloaded during the “make install_roles” phase. The roles will be install in “/ansible/roles/external”.
