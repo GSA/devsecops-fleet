@@ -5,6 +5,7 @@ ansible/roles/external/*
 ansible/ssh.cfg
 ansible/src/
 ansible/tmp/*
+ansible/playbooks/files/kolide.yml
 !ansible/tmp/.keep
 secrets.yml
 .vault_pass.txt
