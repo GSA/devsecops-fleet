@@ -6,9 +6,11 @@ ansible/ssh.cfg
 ansible/src/
 ansible/tmp/*
 ansible/playbooks/files/kolide.yml
+ansible/playbooks/files/*
 !ansible/tmp/.keep
 secrets.yml
-.vault_pass.txt
+ansible/playbooks/.vault_pass
+.vault_pass*
 *.pem
 ~$*
 *.pyc
