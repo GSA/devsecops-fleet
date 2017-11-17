@@ -51,7 +51,7 @@ variable "kolide_instance_subnet_id" {
     default = ""
 }
 
-variable "kolide_http_cidrs" {
+variable "kolide_https_cidrs" {
     description = "List of CIDR ranges to allow http/https access to the instance."
     type = "list"
     default = ["0.0.0.0/0"]
@@ -209,6 +209,11 @@ variable "kolide_rds_username" {
 
 variable "kolide_rds_password" {
     description = "Kolide RDS password"
+    type = "string"
+}
+
+variable "kolide_jwt_key" {
+    description = "JWT key for fleet (make it up)"
     type = "string"
 }
 
