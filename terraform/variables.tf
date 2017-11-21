@@ -36,7 +36,6 @@ variable "vpc_id" {
 variable "kolide_key_name" {
     description = "The key pair name for the kolide instance. The key pair must already exist in the AWS account."
     type = "string"
-    default = "kolide-ec2"
 }
 
 variable "kolide_sg_name" {
@@ -102,7 +101,7 @@ variable "kolide_private_master_dns" {
 variable "kolide_vm_user" {
     description = "Name of the ssh user to use."
     type = "string"
-    default = "ec2-user"
+    default = "ubuntu"
 }
 
 variable "kolide_rds_db_engine" {
@@ -138,7 +137,7 @@ variable "kolide_rds_identifier" {
 variable "kolide_rds_backup_retention_period" {
     description = "Number of backups to retain"
     type = "string"
-    default = "0"
+    default = "30"
 }
 
 variable "kolide_rds_maintenance_window" {
