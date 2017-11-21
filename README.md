@@ -50,6 +50,14 @@ If you’ve already deployed the DevSecOps-Infrastructure repo, chances are you�
 
 1. Fill out [‘backend.tfvars’](terraform/backend.tfvars.example). The “bucket” parameter *must* match the bucket name you used in the AWS CLI command above, otherwise terraform will throw an error on the init command.
 
+### Ansible Setup
+
+Two quick steps are necessary to keep the ansible side of things happy.
+
+1. Copy the file /ansible/group_vars/devsecops_kolide_eip/vars.yml.example. Name it to "vars.yml" and change the external hostname variable. DO NOT modify the python interpreter variable.
+
+1. Create your server certificate. Name the certificate "fleet.crt" and the private key "fleet.key." Place them in /ansible/playbooks/files.
+
 ### Hardening
 
 This repo also uses the GSA ansible role to harden the server according to GSA security baselines. The repo for the hardening is located at [this url](https://github.com/GSA/ansible-os-ubuntu-16/).

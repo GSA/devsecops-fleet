@@ -1,6 +1,7 @@
 # Ansible
 ansible/**/*.retry
-ansible/group_vars/*
+ansible/group_vars/devsecops_kolide_eip/vars.yml
+ansible/group_vars/devsecops_kolide_eip/vault.yml
 ansible/roles/external/*
 ansible/ssh.cfg
 ansible/src/
