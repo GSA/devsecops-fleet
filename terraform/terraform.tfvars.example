@@ -1,0 +1,140 @@
+# Duplicate this file and name it "terraform.tfvars". Make your modifications below. Where defaults are supplied in variables.tf, the variables are listed below. Where there are no defaults supplied, the value is blank in this file. You will be prompted to supply the variable if it's still required.
+
+# AWS region
+# region = "us-east-1"
+
+# AWS AZ's
+# az1 = "us-east-1d"
+# az2 = "us-east-1e"
+
+# Remote state information is here. This refers to the terraform state bucket/key that refers to the infrastructure you wish to deploy this instance into.
+# Types: strings
+# remote_state_backend_type = "s3"
+remote_state_backend_bucket = ""
+remote_state_backend_key = ""
+
+# Here, you can specify a VPC ID. If you're using the remote backend of an infrastructure, then specify the terraform backend of the infrastructure in the above "remote_state" variables, then leave this blank. If left == "" it will default to remote state_mgmt_vpc_id variable from the remote state. Type: string
+# vpc_id = ""
+
+# SSH key name to use (must already exist in the AWS account). The keyfile MUST be added to the ssh agent on the machine executing this code.
+kolide_key_name = ""
+
+# Security group name (will be created)
+# kolide_sg_name = "sg_kolide_ec2"
+
+# Here, you can specify a subnet ID. Unless you're doing anything fancy, make sure you're hooking up a public subnet or put an elastic IP on the instance after the templates finish. A public subnet will usually assign a public IP address automatically. If you're using the remote backend of an infrastructure, then specify the terraform backend of the infrastructure in the above "remote_state" variables, then leave this blank. If left == "" it will default to the first public subnet listed in the remote mgmt_public_subnet_ids variable from the remote state. Type: string
+# kolide_instance_subnet_id = ""
+
+# CIDRs to allow to connect to the web ports (80 and 443) - type: list
+# kolide_https_cidrs = ["0.0.0.0/0"]
+
+# CIDRs to allow to connect to ssh port (22) - type: list
+# kolide_ssh_cidrs = ["0.0.0.0/0"]
+
+# Name of the EC2 instance
+# kolide_instance_name = "kolide"
+
+# AMI ID to use - the AMI must exist
+# kolide_ami_id = "ami-da05a4a0"
+
+# Instance type for the instance you want
+# kolide_instance_type = "t2.micro"
+
+# The name to assign for the IAM EC2 instance role
+# kolide_iam_role_name = "kolide_ec2_role"
+
+# The name of the instance profile
+# kolide_ec2_instance_profile_name = "kolide_ec2_role_instance_profile"
+
+# Hostname for private DNS hostname of the jenkins server. Currently this is NOT used.
+# kolide_private_master_dns = “kolide.devsecops.local”
+
+# Login for the initial user on the EC2 instance
+# kolide_vm_user = "ubuntu"
+
+# Kolide RDS instance DB Engine
+# kolide_rds_db_engine = "mysql"
+
+# Whether or not to make the Kolide RDS instance publicly accessible (NOTE, even if you select "true" here, you must modify the values above to place the RDS instance within a public subnet.) Type: boolean
+# kolide_rds_publicly_accessible = "false"
+
+# Kolide RDS port - set to the proper port to match your database engine.
+# kolide_rds_port = "3306"
+
+# Kolide RDS DB engine version
+# kolide_rds_db_engine_version = "5.7.19"
+
+# Kolide RDS Identifier - this is the RDS identifier you wish to use.
+# kolide_rds_identifier = "kolide"
+
+# Kolide RDS Backup retention period - how many days do you want the RDS instance backups kept? Note, this can affect creation time. Setting a value of "0" will create the RDS instance faster, but there will be no backups until you go in and manually modify the instance. That's against best practices to modify outside of a code deployment though, so it's best to just set a value here and take the long creation time.
+# kolide_rds_backup_retention_period = "30"
+
+# Kolide RDS maintenance window - what's the maintenance window for upgrades?
+# kolide_rds_maintenance_window = "Mon:00:00-Mon:03:00"
+
+# Kolide RDS backup window - what's the window to perform backups
+# kolide_rds_backup_window = "03:00-06:00"
+
+# Kolide RDS DB Name - name of the kolide database
+# kolide_rds_db_name = "kolide"
+
+# Kolie RDS DB Size - size of the database volume (in gigabytes)
+# kolide_rds_db_size = "20"
+
+# Kolide RDS Instance Type - instance size and type of the RDS instance
+# kolide_rds_instance_type = "db.t2.micro"
+
+# Kolide RDS DB Storage type - type of storage for the RDS instance
+# kolide_rds_db_storage_type = "gp2"
+
+# Kolide RDS Multi-AZ - do you want the RDS instance to be multi-AZ? Set to true to enable multi-az, false to disable
+# kolide_rds_multi_az = "false"
+
+# Kolide encrypt RDS storage - do you want to encrypt the RDS storage? If so, you must have a key imported into KMS (see below)
+# kolide_storage_encrypted = "false"
+
+# Kolide final snapshot identifier - if you delete the Kolide RDS instance, what do you want to name the final snapshot?
+# kolide_final_snapshot_identifier = "kolide-FINAL"
+
+# Kolide KMS encryption key ID - to use encrypted storage (above), you must supply the full ARN of a KMS key to use to encrypt/decrypt the storage. This means your KMS key must already exist and the permissions are set properly.
+# kolide_rds_encryption_kms_key_id = ""
+
+# Kolide RDS user name - user login for the Kolide database
+# kolide_rds_username = "kolide"
+
+# Kolide RDS password - password to login to the database for the kolide user
+kolide_rds_password = ""
+
+# Kolide JWT key - The JWT key to use when signing and validating session keys. If this value is not specified the Fleet server will fail to start and a randomly generated key will be provided for use.
+kolide_jwt_key = ""
+
+# Kolide RDS subnet group - The name of an RDS subnet group to use. This is likely deployed in another stack. Leave this blank to set the previously-deployed stack as the target.
+# kolide_rds_subnet_group = ""
+
+# Kolide ingress CIDR blocks for RDS instance
+# kolide_ingress_cidr_blocks = ["10.0.0.0/16"]
+
+# Parameter group family for RDS instance
+# kolide_rds_parameter_group_family = "mysql5.7"
+
+# Description for the RDS resources
+# kolide_rds_stack_description = "Kolide fleet RDS instance"
+
+# Redis environment target
+# kolide_redis_environment = "dev"
+
+# Redis cluster name
+# kolide_redis_cluster_name = "kolide-redis"
+
+# Number of cluster nodes for kolide redis in Elasticache
+# kolide_redis_clusters = "2"
+
+# Boolean to describe whether or not the Elasticache redis cluster should have a failover mode or not
+# kolide_redis_failover = "true"
+
+# CIDR range to allow access to the redis cluster (creates a security group)
+# kolide_redis_allowed_cidr = ["10.0.0.0/16"]
+
+# Node type for the redis instances
+# kolide_redis_node_type = "cache.m3.medium"

@@ -1,0 +1,5 @@
+# Required variable. Please do not modify.
+ansible_python_interpreter: /usr/bin/python3
+
+# Set this variable to the external hostname that matches your server certificate.
+kolide_external_hostname: fqdn.example.com

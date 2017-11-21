@@ -1,0 +1,5 @@
+# This project has two state links: the local state link and the remote data store link. The remote data store link refers to the terraform state that manages the networking infrastructure this Jenkins deployment will go into.
+
+# Local state S3 bucket and key.
+bucket = "<bucket-name>"
+key = "<folder/file>"

@@ -1,0 +1,69 @@
+---
+- hosts: devsecops_kolide_eip
+  become: true
+  gather_facts: false
+  name: Set up Kolide Fleet
+  vars_files:
+    - ../group_vars/devsecops_kolide_eip/vars.yml
+    - ../group_vars/devsecops_kolide_eip/vault.yml
+
+  roles:
+    - gsa_kolide_fleet
+
+  pre_tasks:
+
+  - name: Run the equivalent of "apt-get update" as a separate step
+    apt:
+      update_cache: yes
+
+  - name: Install AWSCLI
+    apt:
+      name: awscli
+  
+  - name: Install unzip
+    apt:
+      name: unzip
+
+  tasks:
+
+  - name: Template out a fleet config file
+    template:
+      src: files/kolide.j2
+      dest: /root/.kolide.yml
+      owner: root
+      group: root
+      mode: '0700'
+      backup: yes
+
+  - name: Save server certificate
+    copy:
+      src: files/fleet.crt
+      dest: /root/.fleet.crt
+      owner: root
+      group: root
+      mode: '0700'
+      backup: yes
+  
+  - name: Server server key
+    copy:
+      src: files/fleet.key
+      dest: /root/.fleet.key
+      owner: root
+      group: root
+      mode: '0700'
+      backup: yes
+
+  - name: Run fleet prepare db
+    shell: /usr/local/bin/fleet prepare db --config /root/.kolide.yml
+    run_once: true
+
+  - name: Register fleet to start at run time
+    lineinfile:
+      dest: /etc/rc.local
+      insertbefore: '^exit 0'
+      line: nohup /usr/local/bin/fleet serve --config /root/.kolide.yml > /var/log/fleet.log 2> /var/log/fleet.err < /dev/null &
+      state: present
+
+  - name: Start fleet
+    tags: fleet
+    command: nohup /usr/local/bin/fleet serve --config /root/.kolide.yml > /var/log/fleet.log 2> /var/log/fleet.err < /dev/null &

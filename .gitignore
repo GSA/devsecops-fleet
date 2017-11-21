@@ -1,0 +1,29 @@
+# Ansible
+ansible/**/*.retry
+ansible/group_vars/devsecops_kolide_eip/vars.yml
+ansible/group_vars/devsecops_kolide_eip/vault.yml
+ansible/roles/external/*
+ansible/ssh.cfg
+ansible/src/
+ansible/tmp/*
+ansible/playbooks/files/kolide.yml
+ansible/playbooks/files/*
+!ansible/tmp/.keep
+secrets.yml
+ansible/playbooks/.vault_pass
+.vault_pass*
+*.pem
+~$*
+*.pyc
+
+## Terraform ##
+#
+# Ignore private variables
+*.tfvars
+#
+# Compiled files
+*.tfstate*
+#
+# Module directories
+.terraform/
+modules/
