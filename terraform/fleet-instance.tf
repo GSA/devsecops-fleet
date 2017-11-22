@@ -31,7 +31,7 @@ resource "aws_instance" "devsecops_kolide_instance" {
   ami = "${var.kolide_ami_id}"
   instance_type = "${var.kolide_instance_type}"
   # TODO: Which public subnet?!
-  subnet_id = "${var.kolide_instance_subnet_id == "" ? data.terraform_remote_state.infrastructure_remote_state.app_public_subnet_ids[0] : var.kolide_instance_subnet_id}"
+  subnet_id = "${var.kolide_instance_subnet_id == "" ? data.terraform_remote_state.infrastructure_remote_state.public_subnet_ids[0] : var.kolide_instance_subnet_id}"
   vpc_security_group_ids = ["${aws_security_group.devsecops_kolide_sg.id}"]
   key_name = "${var.kolide_key_name}"
   iam_instance_profile = "${aws_iam_instance_profile.kolide_ec2_instance_profile.id}"
