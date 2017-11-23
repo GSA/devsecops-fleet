@@ -67,3 +67,5 @@
   - name: Start fleet
     tags: fleet
     command: nohup /usr/local/bin/fleet serve --config /root/.kolide.yml > /var/log/fleet.log 2> /var/log/fleet.err < /dev/null &
+    async: 45
+    poll: 0
