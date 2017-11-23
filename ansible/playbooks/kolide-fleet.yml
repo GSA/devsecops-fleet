@@ -9,6 +9,7 @@
 
   roles:
     - gsa_kolide_fleet
+    - { role: geerlingguy.redis }
 
   pre_tasks:
 

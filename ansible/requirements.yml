@@ -3,3 +3,5 @@
   name: gsa_ubuntu_16_hardening
 - src: https://github.com/GSA/ansible-role-kolide-fleet
   name: gsa_kolide_fleet
+- src: https://github.com/geerlingguy/ansible-role-redis
+  name: geerlingguy.redis
