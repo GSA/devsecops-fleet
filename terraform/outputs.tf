@@ -3,7 +3,7 @@ output "kolide_public_ip" {
 }
 
 output "kolide_elasticache_endpoint" {
-    value = "${module.kolide_redis.endpoint}"
+    value = "${var.kolide_redis_endpoint}"
 }
 
 output "kolide_rds_endpoint" {
