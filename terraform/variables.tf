@@ -275,3 +275,9 @@ variable "kolide_redis_node_type" {
     type = "string"
     default = "cache.m3.medium"
 }
+
+variable "kolide_redis_endpoint" {
+    description = "Endpoint of the redis cluster"
+    type = "string"
+    default = "127.0.0.1"
+}
